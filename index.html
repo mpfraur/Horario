@@ -334,7 +334,11 @@
   <!-- MODAL: MODULE DETAILS MODAL (RETRO RPG DIALOGUE BOX) -->
   <div id="moduleModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden no-print">
     <div class="module-modal-layout">
-      <div class="module-modal-dialog pixel-box bg-slate-950 border-4 border-yellow-400 w-full max-w-lg overflow-hidden shadow-[8px_8px_0px_#000]">
+    <aside id="modalProfessors" class="module-professors hidden" aria-labelledby="modalProfessorsTitle">
+      <h3 id="modalProfessorsTitle" class="font-arcade text-[9px] text-yellow-300">PROFESSORS I DIFICULTAT</h3>
+      <div id="modalProfessorList" class="modal-professor-list"></div>
+    </aside>
+    <div class="module-modal-dialog pixel-box bg-slate-950 border-4 border-yellow-400 w-full max-w-lg overflow-hidden shadow-[8px_8px_0px_#000]">
       
       <!-- Modal Header -->
       <div id="modalHeader" class="p-4 border-b-4 border-slate-800 flex items-start justify-between bg-black">

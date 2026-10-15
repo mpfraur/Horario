@@ -46,8 +46,8 @@ tailwind.config = {
 
       // DIMECRES (Day 3)
       { id: 'm7', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 2, rowSpan: 2, code: 'M14', subject: "Mòdul optatiu 1", teacher: 'Negre, Pere', room: 'Aula 204', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-slate', description: 'Tecnologies d\'especialització en desenvolupament d\'aplicacions web avançades i noves tendències del sector.' },
-      { id: 'm8', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 4, rowSpan: 1, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', room: 'Aula 204', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-emerald', description: 'Instal·lació i configuració de servidors d\'aplicacions web, protocols de xarxa i gestió de dominis.' },
-      { id: 'm9', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 6, rowSpan: 1, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', room: 'Aula 204', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-emerald', description: 'Servidors web HTTP/HTTPS, seguretat amb SSL/TLS, redireccions i gestió de directoris de producció.' },
+      { id: 'm8', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 4, rowSpan: 1, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', professors: ['Manu', 'Mark'], room: 'Aula 204', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-emerald', description: 'Instal·lació i configuració de servidors d\'aplicacions web, protocols de xarxa i gestió de dominis.' },
+      { id: 'm9', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 6, rowSpan: 1, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', professors: ['Manu', 'Mark'], room: 'Aula 204', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-emerald', description: 'Servidors web HTTP/HTTPS, seguretat amb SSL/TLS, redireccions i gestió de directoris de producció.' },
       { id: 'm10', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 7, rowSpan: 2, code: 'M06', subject: "Desenvolupament web en entorn servidor", teacher: 'Negre, Pere', room: 'Aula 204', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-dark-purple', description: 'Patró de disseny MVC, Ús d\'ORMs per a la persistència de dades i optimització de consultes a la base de dades.' },
 
       // DIJOUS (Day 4)
@@ -59,7 +59,7 @@ tailwind.config = {
       // DIVENDRES (Day 5)
       { id: 'm15', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 2, rowSpan: 3, code: 'M06', subject: "Desenvolupament web en entorn client", teacher: 'Rudenko, Artem', room: 'Aula 204', startTime: '15:00', endTime: '17:45', startMin: 900, endMin: 1065, colorClass: 'mod-teal', description: 'Pràctiques intensives amb frameworks moderns (React, Angular, Vue.js), arquitectura de Single Page Applications (SPA) i gestió d\'estats.' },
       { id: 'm16', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 6, rowSpan: 1, code: 'M11', subject: "Anglès professional", teacher: 'Kirilova, Radosveta', room: 'Aula 204', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-maroon', description: 'Presentació oral de projectes de programari i simulació de reunions tècniques en anglès.' },
-      { id: 'm17', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 7, rowSpan: 2, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', room: 'Aula 204', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-emerald', description: 'Contenidors Docker, automatització CI/CD, serveis en el núvol (Cloud Services) i monitorització d\'aplicacions en producció.' }
+      { id: 'm17', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 7, rowSpan: 2, code: 'M08', subject: "Desplegament d'aplicacions web", teacher: 'Martínez, Manuel', professors: ['Manu', 'Mark'], room: 'Aula 204', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-emerald', description: 'Contenidors Docker, automatització CI/CD, serveis en el núvol (Cloud Services) i monitorització d\'aplicacions en producció.' }
     ];
 
     const attendanceStamps = [
@@ -117,6 +117,25 @@ tailwind.config = {
     const pedroDeadline = new Date(2027, 1, 26);
     const pedroDeadlineStart = new Date(2026, 1, 26);
     const pedroDeadlineDuration = pedroDeadline - pedroDeadlineStart;
+    const professorProfiles = {
+      Svetta: { teacherName: 'Kirilova, Radosveta', image: 'sources/svetta.png', difficulty: 'Easy', difficultyClass: 'difficulty-easy' },
+      Santi: { teacherName: 'Bonillo, Santi', image: 'sources/Santi.png', difficulty: 'Normal', difficultyClass: 'difficulty-normal' },
+      Artem: { teacherName: 'Rudenko, Artem', image: 'sources/artem.png', difficulty: 'Hard', difficultyClass: 'difficulty-hard' },
+      Mark: { teacherName: 'Vila Perez, Marc', image: 'sources/mark.png', difficulty: 'Normal', difficultyClass: 'difficulty-normal' },
+      Manu: { teacherName: 'Martínez, Manuel', image: 'sources/manu.png', difficulty: 'Super Hard', difficultyClass: 'difficulty-super-hard' },
+      Pere: { teacherName: 'Negre, Pere', image: 'sources/pere.png', difficulty: 'Extremely Hard', difficultyClass: 'difficulty-extreme' }
+    };
+
+    function getModuleProfessors(mod) {
+      if (mod.professors) return mod.professors;
+      const profile = Object.entries(professorProfiles).find(([, professor]) => professor.teacherName === mod.teacher);
+      return profile ? [profile[0]] : [];
+    }
+
+    function getModuleTeacherNames(mod) {
+      const names = getModuleProfessors(mod).map(name => professorProfiles[name].teacherName);
+      return names.length ? names.join(' / ') : mod.teacher;
+    }
 
     function toggleSidebar(show) {
       isSidebarOpen = (typeof show === 'boolean') ? show : !isSidebarOpen;
@@ -172,7 +191,7 @@ tailwind.config = {
               ${mod.subject}
             </h3>
             <p class="font-pixel text-base opacity-90 mt-1">
-              ${mod.teacher}
+              ${getModuleTeacherNames(mod)}
             </p>
           </div>
           ${progressHTML}
@@ -533,12 +552,12 @@ tailwind.config = {
         let matchesTeacher = true;
 
         if (searchQuery) {
-          const fullText = `${mod.subject} ${mod.teacher} ${mod.code} ${mod.room}`.toLowerCase();
+          const fullText = `${mod.subject} ${getModuleTeacherNames(mod)} ${mod.code} ${mod.room}`.toLowerCase();
           matchesSearch = fullText.includes(searchQuery);
         }
 
         if (currentTeacherFilter !== 'ALL') {
-          matchesTeacher = (mod.teacher === currentTeacherFilter);
+          matchesTeacher = getModuleTeacherNames(mod).split(' / ').includes(currentTeacherFilter);
         }
 
         if (matchesSearch && matchesTeacher) {
@@ -554,10 +573,40 @@ tailwind.config = {
     function openModuleModal(mod) {
       document.getElementById('modalCodeBadge').textContent = mod.code;
       document.getElementById('modalTitle').textContent = mod.subject;
-      document.getElementById('modalTeacher').textContent = mod.teacher;
+      document.getElementById('modalTeacher').textContent = getModuleTeacherNames(mod);
       document.getElementById('modalRoom').textContent = mod.room;
       document.getElementById('modalTimeDetails').innerHTML = `<i class="fa-regular fa-clock"></i> ${mod.dayName}: ${mod.startTime} - ${mod.endTime}`;
       document.getElementById('modalDescription').textContent = mod.description;
+
+      const professorPanel = document.getElementById('modalProfessors');
+      const professorList = document.getElementById('modalProfessorList');
+      const assignedProfessors = getModuleProfessors(mod);
+      professorList.replaceChildren();
+      if (assignedProfessors.length) {
+        professorPanel.classList.remove('hidden');
+        assignedProfessors.forEach(name => {
+          const professor = professorProfiles[name];
+          const card = document.createElement('div');
+          card.className = `modal-professor ${professor.difficultyClass}`;
+
+          const portrait = document.createElement('img');
+          portrait.src = professor.image;
+          portrait.alt = professor.teacherName;
+
+          const teacherName = document.createElement('span');
+          teacherName.className = 'modal-professor-name';
+          teacherName.textContent = professor.teacherName;
+
+          const difficulty = document.createElement('span');
+          difficulty.className = `difficulty-badge ${professor.difficultyClass}`;
+          difficulty.textContent = professor.difficulty;
+
+          card.append(portrait, teacherName, difficulty);
+          professorList.appendChild(card);
+        });
+      } else {
+        professorPanel.classList.add('hidden');
+      }
 
       const activeAttendanceStamps = isAlternateSchedule ? alternateAttendanceStamps : attendanceStamps;
       const matchingStamps = activeAttendanceStamps.filter(stamp =>
@@ -632,7 +681,7 @@ tailwind.config = {
         if (!subjectMap[mod.subject]) {
           subjectMap[mod.subject] = {
             code: mod.code,
-            teacher: mod.teacher,
+            teacher: getModuleTeacherNames(mod),
             minutes: 0,
             color: mod.colorClass
           };
