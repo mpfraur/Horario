@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ca" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horari · IFC33 — Grup B (Curs 2026-2027) | 8-BIT PIXEL EDITION</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js"></script>
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- 8-Bit Pixel Fonts from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-midnight text-slate-100 min-h-screen font-pixel transition-colors duration-200 relative select-none">
+  <!-- CRT TV Scanlines Overlay Effect (Toggleable) -->
+  <div id="scanlinesOverlay" class="scanline-overlay fixed inset-0 z-50 pointer-events-none hidden opacity-90"></div>
+
+  <!-- SLIDE-OUT CONTROL PANEL SIDEBAR BACKDROP -->
+  <div id="sidebarBackdrop" data-action="sidebar-close" class="fixed inset-0 bg-black/80 z-40 hidden no-print"></div>
+
+  <!-- SLIDE-OUT CONTROL PANEL SIDEBAR (RETRO INVENTORY STYLE) -->
+  <aside id="sidebar" class="fixed top-0 right-0 h-full w-80 sm:w-96 bg-black border-l-4 border-yellow-400 shadow-[8px_0px_0px_#000] z-50 transform translate-x-full transition-transform duration-200 flex flex-col justify-between overflow-y-auto p-5 no-print">
+    <div class="space-y-6">
+      <!-- Sidebar Header -->
+      <div class="flex items-center justify-between border-b-4 border-slate-800 pb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-gamepad text-yellow-400 text-xl"></i>
+          <h2 class="font-arcade text-xs text-yellow-400 tracking-wider">TAULER CONTROL</h2>
+        </div>
+        <button data-action="sidebar-close" class="pixel-btn px-2 py-1 bg-red-600 hover:bg-red-500 text-white font-arcade text-[10px]">
+          [X]
+        </button>
+      </div>
+
+      <!-- Quick Actions (Theme, Sound, CRT, Print) -->
+      <div>
+        <h3 class="font-arcade text-[10px] text-purple-400 mb-3"><i class="fa-solid fa-desktop mr-1.5"></i>VISUALS & AUDIO</h3>
+        <div class="grid grid-cols-2 gap-2 font-arcade text-[9px]">
+          <button id="btnThemeToggle" data-action="theme-toggle" class="pixel-btn p-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 flex items-center justify-center gap-1.5 text-center">
+            <i id="themeIcon" class="fa-solid fa-moon text-amber-400"></i>
+            <span>CLAR/FOSC</span>
+          </button>
+          <button id="btnCrtToggle" data-action="crt-toggle" class="pixel-btn p-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 flex items-center justify-center gap-1.5 text-center">
+            <i class="fa-solid fa-desktop text-purple-400"></i>
+            <span>EFECTE CRT</span>
+          </button>
+          <button id="btnAudioToggle" data-action="audio-toggle" class="pixel-btn p-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 flex items-center justify-center gap-1.5 text-center">
+            <i id="audioIcon" class="fa-solid fa-volume-xmark text-slate-400"></i>
+            <span>SÒ 8-BIT</span>
+          </button>
+          <button data-action="analytics-open" class="pixel-btn p-2.5 bg-purple-950 hover:bg-purple-900 text-purple-200 flex items-center justify-center gap-1.5 text-center">
+            <i class="fa-solid fa-chart-pie text-purple-400"></i>
+            <span>HORES</span>
+          </button>
+        </div>
+        <button data-action="print" class="pixel-btn w-full mt-3 p-2.5 bg-indigo-700 hover:bg-indigo-600 text-white font-arcade text-[10px] flex items-center justify-center gap-2">
+          <i class="fa-solid fa-print"></i>
+          <span>IMPRIMIR / PDF</span>
+        </button>
+      </div>
+
+      <!-- Time Machine Controls -->
+      <div class="pixel-box bg-slate-900 p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-clock text-yellow-400"></i>
+            <span class="font-arcade text-[10px] text-yellow-400">MAQUINA TEMPS</span>
+          </div>
+          <span class="font-arcade text-[8px] bg-purple-900 text-purple-300 px-1.5 py-0.5 border border-purple-500">PRO</span>
+        </div>
+
+        <div class="flex items-center bg-black p-1 border-2 border-slate-700 justify-between">
+          <button id="btnRealTimeMode" data-action="simulator-real" class="w-1/2 py-1 font-arcade text-[9px] bg-purple-600 text-white text-center">
+            REAL
+          </button>
+          <button id="btnSimMode" data-action="simulator-sim" class="w-1/2 py-1 font-arcade text-[9px] text-slate-400 hover:text-white text-center">
+            SIMULAT
+          </button>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label for="simDaySelect" class="font-arcade text-[9px] text-slate-400">DIA:</label>
+            <select id="simDaySelect" data-on="change" data-action="simulator-update" class="bg-black border-2 border-purple-500 text-purple-300 font-arcade text-[9px] px-2 py-1 focus:outline-none">
+              <option value="1">Dilluns</option>
+              <option value="2">Dimarts</option>
+              <option value="3">Dimecres</option>
+              <option value="4">Dijous</option>
+              <option value="5">Divendres</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between font-arcade text-[9px] text-slate-400">
+              <span>HORA:</span>
+              <span id="simTimeVal" class="text-yellow-400 font-bold">15:00</span>
+            </div>
+            <input id="simTimeSlider" type="range" min="870" max="1275" step="5" value="900" data-on="input" data-action="simulator-update" class="w-full h-3 bg-black accent-yellow-400 cursor-pointer">
+          </div>
+        </div>
+
+        <div class="pt-2 border-t-2 border-slate-800">
+          <span class="font-arcade text-[8px] text-slate-400 block mb-2">WARP RAPID:</span>
+          <div class="grid grid-cols-2 gap-2 font-arcade text-[8px]">
+            <button data-action="simulator-preset" data-day="1" data-minutes="900" class="pixel-btn p-1.5 bg-slate-800 hover:bg-purple-900 text-slate-300">DL 15:00</button>
+            <button data-action="simulator-preset" data-day="1" data-minutes="1065" class="pixel-btn p-1.5 bg-slate-800 hover:bg-amber-900 text-slate-300">DESCANS</button>
+            <button data-action="simulator-preset" data-day="2" data-minutes="990" class="pixel-btn p-1.5 bg-slate-800 hover:bg-purple-900 text-slate-300">DM 16:30</button>
+            <button data-action="simulator-preset" data-day="5" data-minutes="1260" class="pixel-btn p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300">21:00 END</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Teacher Filters -->
+      <div class="space-y-3">
+        <h3 class="font-arcade text-[10px] text-purple-400"><i class="fa-solid fa-filter mr-1.5"></i>CERCA I FILTRES</h3>
+        <div class="relative">
+          <input id="searchInput" type="text" data-on="input" data-action="search-update" placeholder="Cerca mòdul o profe..." class="w-full bg-black border-2 border-purple-500 font-arcade text-[9px] pl-3 pr-7 py-2 text-yellow-300 placeholder-slate-600 focus:outline-none">
+          <button id="btnClearSearch" data-action="search-clear" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white font-arcade text-[10px]">
+            [X]
+          </button>
+        </div>
+
+        <div class="space-y-1.5">
+          <span class="font-arcade text-[8px] text-slate-400">PROFESSORS:</span>
+          <div class="flex flex-wrap gap-1.5">
+            <button data-action="teacher-filter" data-teacher="ALL" class="teacher-pill pixel-btn px-2 py-1 bg-purple-600 text-white font-arcade text-[8px]">TOTS</button>
+            <button data-action="teacher-filter" data-teacher="Rudenko, Artem" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Rudenko</button>
+            <button data-action="teacher-filter" data-teacher="Negre, Pere" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Negre</button>
+            <button data-action="teacher-filter" data-teacher="Martínez, Manuel" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Martínez</button>
+            <button data-action="teacher-filter" data-teacher="Kirilova, Radosveta" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Kirilova</button>
+            <button data-action="teacher-filter" data-teacher="Bonillo, Santi" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Bonillo</button>
+            <button data-action="teacher-filter" data-teacher="Vila Perez, Marc" class="teacher-pill pixel-btn px-2 py-1 bg-slate-900 text-slate-300 font-arcade text-[8px]">Vila</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="pt-4 border-t-4 border-slate-800 text-center font-arcade text-[8px] text-slate-500">
+      IFC33 ARCADE EDITION • 2026-2027
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="max-w-[1600px] mx-auto p-3 sm:p-5 flex flex-col gap-4 print-area">
+
+    <!-- TOP HEADER BAR -->
+    <header class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b-4 border-purple-900 pb-3 no-print">
+      <div class="flex items-center gap-3">
+        <div class="w-4 h-4 bg-red-500 animate-pulse border-2 border-black"></div>
+        <div>
+          <h1 class="font-arcade text-lg sm:text-2xl text-yellow-400 tracking-wider flex items-center gap-2">
+            HORARI <span class="text-purple-400">•</span> IFC33 <span class="text-purple-400">—</span> GRUP B
+          </h1>
+          <p class="font-arcade text-[10px] text-slate-400 mt-1">
+            CURS 2026-2027 • DAW ARCADE SYSTEM
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Button: Open Control Panel Sidebar -->
+      <div class="flex items-center gap-2">
+        <button data-action="sidebar-open" class="pixel-btn px-4 py-2.5 bg-purple-900 hover:bg-purple-800 text-yellow-300 font-arcade text-[10px] flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-yellow-400"></i>
+          <span>TAULER CONTROL</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- STREAMLINED LIVE BROADCAST HUD -->
+    <div class="pixel-box bg-slate-950 p-3 sm:p-4 no-print">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Clock & Status Badge -->
+        <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start border-b-2 md:border-b-0 border-slate-800 pb-2 md:pb-0">
+          <div id="liveStatusBadge" class="pixel-btn px-3 py-1 font-arcade text-[10px] uppercase bg-red-950 text-red-400 border-red-600">
+            <span id="liveStatusText">● LIVE ON AIR</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div id="clockDisplay" class="font-arcade text-lg sm:text-2xl text-yellow-300 tracking-widest">
+              15:00:00
+            </div>
+            <span id="dateText" class="font-arcade text-[10px] text-purple-400 hidden sm:inline">Dilluns</span>
+          </div>
+        </div>
+
+        <!-- Currently Broadcasting & Up Next -->
+        <div class="flex flex-1 items-center justify-end gap-3 w-full md:w-auto">
+          
+          <!-- Current Module -->
+          <div class="flex-1 max-w-sm bg-black p-2.5 border-2 border-emerald-500 flex items-center justify-between gap-2">
+            <div class="truncate">
+              <span class="font-arcade text-[8px] uppercase text-emerald-400 block">EN EMISSIÓ ARA:</span>
+              <span id="currentModuleName" class="font-arcade text-[10px] text-white truncate block mt-0.5">Disseny d'interfícies web</span>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <span id="currentModulePercentText" class="font-arcade text-emerald-400 text-xs block">0%</span>
+              <span id="currentModuleCountdownText" class="font-arcade text-[8px] text-slate-400 block">0m</span>
+            </div>
+          </div>
+
+          <!-- Up Next Module -->
+          <div class="flex-1 max-w-xs bg-black p-2.5 border-2 border-purple-500 hidden sm:flex items-center justify-between gap-2">
+            <div class="truncate">
+              <span class="font-arcade text-[8px] uppercase text-purple-400 block">A CONTINUACIÓ:</span>
+              <span id="nextModuleName" class="font-arcade text-[10px] text-slate-300 truncate block mt-0.5">--</span>
+            </div>
+            <span id="nextModuleTimeBadge" class="font-arcade text-xs text-purple-300 flex-shrink-0">--:--</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <section class="pixel-box pedro-widget" aria-labelledby="pedroWidgetTitle">
+      <div class="pedro-widget-copy">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 id="pedroWidgetTitle" class="font-arcade text-[10px] sm:text-xs text-yellow-300">HOW MANY HOURS TILL PEDRO LEAVES ME ALONE</h2>
+            <p class="font-arcade text-[8px] text-slate-400 mt-2">6 HOURS EACH WEEKDAY · 15:00–21:00</p>
+          </div>
+          <span id="pedroCountdown" class="font-arcade text-sm sm:text-base text-emerald-300" aria-live="off">30h 00m 00s</span>
+        </div>
+        <div class="pedro-progress-track" role="progressbar" aria-label="Pedro's remaining hours this week" aria-valuemin="0" aria-valuemax="108000" aria-valuenow="108000" aria-valuetext="30 hours remaining">
+          <div id="pedroProgress" class="pedro-progress-fill"></div>
+        </div>
+        <p id="pedroRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-2">30.0 OF 30 HOURS REMAINING THIS WEEK</p>
+      </div>
+      <button type="button" data-action="pedro-open" class="pedro-portrait-button" aria-label="Open Pedro's countdown">
+        <img src="sources/Pedro.png" alt="Pedro">
+      </button>
+    </section>
+
+    <!-- MAIN TIMETABLE CSS GRID CONTAINER -->
+    <div class="pixel-box bg-slate-950 p-2 sm:p-4 overflow-x-auto print:p-0">
+      
+      <!-- Grid Schedule Table (6 columns: Horari + 5 Days) -->
+      <div id="scheduleGrid" class="min-w-[900px] grid grid-cols-6 gap-2 sm:gap-3 text-center">
+        
+        <!-- ROW 1: HEADER CELLS -->
+        <div class="bg-purple-950 text-yellow-400 font-arcade text-[10px] py-3 px-2 border-2 border-black flex items-center justify-center">
+          HORARI
+        </div>
+        <div class="bg-slate-900 text-slate-200 font-arcade text-[10px] py-3 px-2 border-2 border-black">
+          DILLUNS
+        </div>
+        <div class="bg-slate-900 text-slate-200 font-arcade text-[10px] py-3 px-2 border-2 border-black">
+          DIMARTS
+        </div>
+        <div class="bg-slate-900 text-slate-200 font-arcade text-[10px] py-3 px-2 border-2 border-black">
+          DIMECRES
+        </div>
+        <div class="bg-slate-900 text-slate-200 font-arcade text-[10px] py-3 px-2 border-2 border-black">
+          DIJOUS
+        </div>
+        <div class="bg-slate-900 text-slate-200 font-arcade text-[10px] py-3 px-2 border-2 border-black">
+          DIVENDRES
+        </div>
+
+        <!-- TIME SLOTS COLUMN -->
+        <div class="col-start-1 row-start-2 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          15:00 - 15:55
+        </div>
+        <div class="col-start-1 row-start-3 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          15:55 - 16:50
+        </div>
+        <div class="col-start-1 row-start-4 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          16:50 - 17:45
+        </div>
+        <div class="col-start-1 row-start-5 bg-blue-950 text-blue-300 font-arcade text-[8px] py-2 px-1 border-2 border-blue-600 flex items-center justify-center">
+          17:45 - 18:15
+        </div>
+        <div class="col-start-1 row-start-6 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          18:15 - 19:10
+        </div>
+        <div class="col-start-1 row-start-7 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          19:10 - 20:05
+        </div>
+        <div class="col-start-1 row-start-8 bg-black text-yellow-300 font-arcade text-[9px] py-3 px-1 border-2 border-slate-800 flex items-center justify-center">
+          20:05 - 21:00
+        </div>
+
+        <!-- BREAK (DESCANS) ROW -->
+        <div id="breakRowCard" class="col-start-2 col-span-5 row-start-5 mod-break p-2.5 flex items-center justify-center gap-3 font-arcade text-[10px] cursor-pointer hover:brightness-110 border-2 border-black shadow-[3px_3px_0px_#000]" data-action="break-open">
+          <span class="w-2 h-2 bg-blue-400 animate-ping"></span>
+          <i class="fa-solid fa-mug-hot text-blue-300"></i>
+          <span>DESCANS (17:45 - 18:15)</span>
+        </div>
+
+        <!-- MODULE CARDS WILL BE RENDERED DYNAMICALLY VIA JS -->
+
+      </div>
+    </div>
+
+    <!-- FOOTER / TV BROADCAST NETWORK FOOTER -->
+    <footer class="mt-2 text-center font-arcade text-[9px] text-slate-500 py-3 border-t-4 border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-2 no-print">
+      <div>
+        <i class="fa-solid fa-gamepad text-purple-400 mr-1"></i>
+        Institut IFC33 • Cicle Formatiu DAW (8-Bit Edition)
+      </div>
+      <div class="flex items-center gap-3">
+        <span>Grup B • 2026-2027</span>
+        <span>•</span>
+        <span class="text-emerald-400"><i class="fa-solid fa-square text-[8px] mr-1"></i>SISTEMA ACTIU</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL: MODULE DETAILS MODAL (RETRO RPG DIALOGUE BOX) -->
+  <div id="moduleModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden no-print">
+    <div class="module-modal-layout">
+      <div class="module-modal-dialog pixel-box bg-slate-950 border-4 border-yellow-400 w-full max-w-lg overflow-hidden shadow-[8px_8px_0px_#000]">
+      
+      <!-- Modal Header -->
+      <div id="modalHeader" class="p-4 border-b-4 border-slate-800 flex items-start justify-between bg-black">
+        <div>
+          <span id="modalCodeBadge" class="px-2 py-0.5 font-arcade text-[9px] bg-purple-900 text-yellow-300 border border-purple-500">
+            M07
+          </span>
+          <h2 id="modalTitle" class="font-arcade text-sm text-yellow-400 mt-2">
+            Disseny d'interfícies web
+          </h2>
+        </div>
+        <button data-action="module-close" class="pixel-btn px-2 py-1 bg-red-600 hover:bg-red-500 text-white font-arcade text-[10px]">
+          [X]
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 space-y-4 text-base text-slate-200">
+        
+        <div class="grid grid-cols-2 gap-3 font-arcade text-[9px]">
+          <div class="bg-black p-3 border-2 border-slate-800">
+            <span class="text-slate-500 block mb-1">PROFESSOR:</span>
+            <span id="modalTeacher" class="text-yellow-300">Rudenko, Artem</span>
+          </div>
+          <div class="bg-black p-3 border-2 border-slate-800">
+            <span class="text-slate-500 block mb-1">AULA / LAB:</span>
+            <span id="modalRoom" class="text-emerald-400">Aula 204</span>
+          </div>
+        </div>
+
+        <div class="bg-black p-3.5 border-2 border-slate-800 font-arcade text-[9px]">
+          <span class="text-slate-500 block mb-1">HORARI SESSIÓ:</span>
+          <div id="modalTimeDetails" class="text-purple-300 flex items-center gap-2">
+            <i class="fa-regular fa-clock"></i> 15:00 - 17:45 (2h 45m)
+          </div>
+        </div>
+
+        <div class="bg-black p-3.5 border-2 border-slate-800">
+          <span class="font-arcade text-[9px] text-slate-500 block mb-1">DESCRIPCIÓ MÒDUL:</span>
+          <p id="modalDescription" class="text-lg text-slate-300 leading-snug">
+            Desenvolupament d'interfícies d'usuari web, usabilitat, maquetació adaptable amb CSS, components interactius i accessibilitat.
+          </p>
+        </div>
+
+        <!-- Weekly sessions for this subject -->
+        <div class="bg-black p-3.5 border-2 border-slate-800">
+          <span class="font-arcade text-[9px] text-slate-500 block mb-2">SESSIONS SETMANALS:</span>
+          <div id="modalWeeklySessions" class="space-y-1.5 font-arcade text-[9px]">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 bg-black border-t-4 border-slate-800 flex justify-end">
+        <button data-action="module-close" class="pixel-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-yellow-300 font-arcade text-[9px]">
+          TANCAR
+        </button>
+      </div>
+
+      </div>
+      <aside id="modalAttendance" class="module-attendance hidden" aria-labelledby="modalAttendanceTitle">
+        <h3 id="modalAttendanceTitle" class="font-arcade text-[9px] text-yellow-300">COINCIDÈNCIA DE FRANJA</h3>
+        <p id="modalAttendanceCourse" class="font-arcade text-[8px] text-purple-300 mt-2"></p>
+        <div id="modalAttendancePeople" class="modal-attendee-list"></div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="pedroModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden no-print">
+    <section class="pixel-box pedro-modal" role="dialog" aria-modal="true" aria-labelledby="pedroModalTitle">
+      <header class="flex items-start justify-between gap-3 border-b-4 border-slate-800 bg-black p-4">
+        <div>
+          <h2 id="pedroModalTitle" class="font-arcade text-[10px] sm:text-xs text-yellow-300">HOW MANY HOURS TILL PEDRO LEAVES ME ALONE</h2>
+          <p class="font-arcade text-[8px] text-slate-400 mt-2">6 HOURS EACH WEEKDAY · 15:00–21:00</p>
+        </div>
+        <button type="button" data-action="pedro-close" class="pixel-btn px-2 py-1 bg-red-600 text-white font-arcade text-[10px]">[X]</button>
+      </header>
+      <div class="pedro-modal-content">
+        <img class="pedro-modal-portrait" src="sources/Pedro.png" alt="Pedro">
+        <div class="pedro-modal-countdown">
+          <p class="font-arcade text-[9px] text-slate-400">TIME LEFT THIS WEEK</p>
+          <p id="pedroModalCountdown" class="font-arcade text-lg sm:text-2xl text-emerald-300 mt-3">30h 00m 00s</p>
+          <div class="pedro-progress-track" role="progressbar" aria-label="Pedro's remaining hours this week" aria-valuemin="0" aria-valuemax="108000" aria-valuenow="108000" aria-valuetext="30 hours remaining">
+            <div id="pedroModalProgress" class="pedro-progress-fill"></div>
+          </div>
+          <p id="pedroModalRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-3">30.0 OF 30 HOURS REMAINING THIS WEEK</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL: ANALYTICS / WEEKLY HOURS MODAL -->
+  <div id="analyticsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden no-print">
+    <div class="pixel-box bg-slate-950 border-4 border-purple-500 w-full max-w-xl shadow-[8px_8px_0px_#000]">
+      
+      <div class="p-4 bg-black border-b-4 border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie text-yellow-400 text-lg"></i>
+          <h2 class="font-arcade text-xs text-yellow-400">RESUM HORES SETMANALS</h2>
+        </div>
+        <button data-action="analytics-close" class="pixel-btn px-2 py-1 bg-red-600 hover:bg-red-500 text-white font-arcade text-[10px]">
+          [X]
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <p class="font-arcade text-[9px] text-slate-400">DISTRIBUCIÓ TOTAL 30 HORES LECTIVES:</p>
+        
+        <div id="analyticsList" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="p-3 bg-black border-t-4 border-slate-800 flex items-center justify-between font-arcade text-[9px] text-slate-400">
+        <span>TOTAL: <strong class="text-yellow-400">30H / SETMANA</strong></span>
+        <button data-action="analytics-close" class="pixel-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-yellow-300">
+          TANCAR
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+</body>
+</html>
