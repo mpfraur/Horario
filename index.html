@@ -169,6 +169,10 @@
 
       <!-- Action Button: Open Control Panel Sidebar -->
       <div class="flex items-center gap-2">
+        <button id="scheduleToggle" type="button" data-action="schedule-toggle" aria-pressed="false" class="pixel-btn px-4 py-2.5 bg-emerald-900 hover:bg-emerald-800 text-emerald-200 font-arcade text-[10px] flex items-center gap-2">
+          <i class="fa-solid fa-arrows-rotate text-emerald-300"></i>
+          <span id="scheduleToggleLabel">HORARI 1r CURS</span>
+        </button>
         <button data-action="sidebar-open" class="pixel-btn px-4 py-2.5 bg-purple-900 hover:bg-purple-800 text-yellow-300 font-arcade text-[10px] flex items-center gap-2">
           <i class="fa-solid fa-sliders text-yellow-400"></i>
           <span>TAULER CONTROL</span>
@@ -236,6 +240,14 @@
           <div id="pedroProgress" class="pedro-progress-fill"></div>
         </div>
         <p id="pedroRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-2">30.0 OF 30 HOURS REMAINING THIS WEEK</p>
+        <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
+          <p class="font-arcade text-[8px] text-yellow-300">COUNTDOWN TO FEBRUARY 25, 2027</p>
+          <span id="pedroDeadlineCountdown" class="font-arcade text-xs sm:text-sm text-yellow-200" aria-live="off">133d 00h 00m 00s</span>
+        </div>
+        <div class="pedro-progress-track" role="progressbar" aria-label="Time remaining until February 25, 2027" aria-valuemin="0" aria-valuemax="31536000" aria-valuenow="31536000" aria-valuetext="365 days remaining">
+          <div id="pedroDeadlineProgress" class="pedro-progress-fill pedro-deadline-progress-fill"></div>
+        </div>
+        <p id="pedroDeadlineRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-2">100% OF 365 DAYS REMAINING UNTIL FEBRUARY 25, 2027</p>
       </div>
       <button type="button" data-action="pedro-open" class="pedro-portrait-button" aria-label="Open Pedro's countdown">
         <img src="sources/Pedro.png" alt="Pedro">
@@ -244,6 +256,7 @@
 
     <!-- MAIN TIMETABLE CSS GRID CONTAINER -->
     <div class="pixel-box bg-slate-950 p-2 sm:p-4 overflow-x-auto print:p-0">
+      <h2 id="scheduleTitle" class="font-arcade text-[10px] text-yellow-300 mb-3" aria-live="polite">HORARI GRUP B</h2>
       
       <!-- Grid Schedule Table (6 columns: Horari + 5 Days) -->
       <div id="scheduleGrid" class="min-w-[900px] grid grid-cols-6 gap-2 sm:gap-3 text-center">
@@ -410,6 +423,12 @@
             <div id="pedroModalProgress" class="pedro-progress-fill"></div>
           </div>
           <p id="pedroModalRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-3">30.0 OF 30 HOURS REMAINING THIS WEEK</p>
+          <p class="font-arcade text-[9px] text-yellow-300 mt-5">TIME UNTIL FEBRUARY 25, 2027</p>
+          <p id="pedroModalDeadlineCountdown" class="font-arcade text-sm sm:text-lg text-yellow-200 mt-3" aria-live="off">133d 00h 00m 00s</p>
+          <div class="pedro-progress-track" role="progressbar" aria-label="Time remaining until February 25, 2027" aria-valuemin="0" aria-valuemax="31536000" aria-valuenow="31536000" aria-valuetext="365 days remaining">
+            <div id="pedroModalDeadlineProgress" class="pedro-progress-fill pedro-deadline-progress-fill"></div>
+          </div>
+          <p id="pedroModalDeadlineRemainingLabel" class="font-arcade text-[8px] text-slate-400 mt-3">100% OF 365 DAYS REMAINING UNTIL FEBRUARY 25, 2027</p>
         </div>
       </div>
     </section>

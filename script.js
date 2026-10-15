@@ -70,12 +70,53 @@ tailwind.config = {
       { day: 4, startRow: 2, endRow: 4, startMin: 900, endMin: 1010, course: 'Bases de dades', people: ['Mario'] },
       { day: 5, startRow: 6, endRow: 9, startMin: 1095, endMin: 1260, course: 'Bases de dades', people: ['Mario'] }
     ];
+    const alternateAttendanceStamps = [
+      { day: 2, startRow: 2, endRow: 5, startMin: 900, endMin: 1065, course: 'Programació', people: ['Miquel', 'Pedro', 'Hugo'] },
+      { day: 3, startRow: 4, endRow: 5, startMin: 1010, endMin: 1065, course: 'Programació', people: ['Miquel', 'Pedro', 'Hugo'] },
+      { day: 3, startRow: 6, endRow: 7, startMin: 1095, endMin: 1150, course: 'Programació', people: ['Miquel', 'Pedro', 'Hugo'] },
+      { day: 4, startRow: 7, endRow: 9, startMin: 1150, endMin: 1260, course: 'Programació', people: ['Miquel', 'Pedro', 'Hugo'] },
+      { day: 4, startRow: 2, endRow: 4, startMin: 900, endMin: 1010, course: 'Bases de dades', people: ['Miquel', 'Pedro', 'Hugo'] },
+      { day: 5, startRow: 6, endRow: 9, startMin: 1095, endMin: 1260, course: 'Bases de dades', people: ['Miquel', 'Pedro', 'Hugo'] }
+    ];
     const attendancePortraits = {
       Mario: 'sources/mario2.png',
-      Pol: 'sources/Pol2.png'
+      Pol: 'sources/Pol2.png',
+      Miquel: 'sources/miquel.png',
+      Pedro: 'sources/Pedro.png',
+      Hugo: 'sources/hugo.png'
     };
+    const attendanceStampPortraits = {
+      Mario: 'sources/mario.png',
+      Pol: 'sources/pol.png',
+      Miquel: 'sources/miquel.png',
+      Pedro: 'sources/Pedro.png',
+      Hugo: 'sources/hugo.png'
+    };
+    const alternateModulesData = [
+      { id: 'alt-si-mon-am', day: 1, dayName: 'Dilluns', colStart: 2, rowStart: 2, rowSpan: 2, code: 'SI', subject: 'Sistemes informàtics', teacher: 'Martínez, Manuel', room: 'Aula no especificada', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-alt-blue', description: 'Sistemes informàtics.' },
+      { id: 'alt-ed-mon', day: 1, dayName: 'Dilluns', colStart: 2, rowStart: 4, rowSpan: 1, code: 'ED', subject: 'Entorns de desenvolupament', teacher: 'Vila Perez, Marc', room: 'Aula no especificada', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-alt-orange', description: 'Entorns de desenvolupament.' },
+      { id: 'alt-da-mon', day: 1, dayName: 'Dilluns', colStart: 2, rowStart: 6, rowSpan: 1, code: 'DA', subject: 'Digitalització aplicada als sectors productius', teacher: 'Rudenko, Artem', room: 'Aula no especificada', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-alt-pink', description: 'Digitalització aplicada als sectors productius.' },
+      { id: 'alt-lmsgi-mon', day: 1, dayName: 'Dilluns', colStart: 2, rowStart: 7, rowSpan: 2, code: 'LMSGI', subject: "Llenguatges de marques i sistemes de gestió d'informació", teacher: 'Rudenko, Artem', room: 'Aula no especificada', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-alt-teal', description: "Llenguatges de marques i sistemes de gestió d'informació." },
+      { id: 'alt-prog-tue', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 2, rowSpan: 3, code: 'PROG', subject: 'Programació', teacher: 'Negre, Pere', room: 'Aula no especificada', startTime: '15:00', endTime: '17:45', startMin: 900, endMin: 1065, colorClass: 'mod-alt-yellow', description: 'Programació.' },
+      { id: 'alt-si-tue', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 6, rowSpan: 3, code: 'SI', subject: 'Sistemes informàtics', teacher: 'Martínez, Manuel', room: 'Aula no especificada', startTime: '18:15', endTime: '21:00', startMin: 1095, endMin: 1260, colorClass: 'mod-alt-blue', description: 'Sistemes informàtics.' },
+      { id: 'alt-lmsgi-wed-am', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 2, rowSpan: 2, code: 'LMSGI', subject: "Llenguatges de marques i sistemes de gestió d'informació", teacher: 'Rudenko, Artem', room: 'Aula no especificada', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-alt-teal', description: "Llenguatges de marques i sistemes de gestió d'informació." },
+      { id: 'alt-prog-wed-pm1', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 4, rowSpan: 1, code: 'PROG', subject: 'Programació', teacher: 'Negre, Pere', room: 'Aula no especificada', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-alt-yellow', description: 'Programació.' },
+      { id: 'alt-prog-wed-pm2', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 6, rowSpan: 1, code: 'PROG', subject: 'Programació', teacher: 'Negre, Pere', room: 'Aula no especificada', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-alt-yellow', description: 'Programació.' },
+      { id: 'alt-ed-wed', day: 3, dayName: 'Dimecres', colStart: 4, rowStart: 7, rowSpan: 2, code: 'ED', subject: 'Entorns de desenvolupament', teacher: 'Vila Perez, Marc', room: 'Aula no especificada', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-alt-orange', description: 'Entorns de desenvolupament.' },
+      { id: 'alt-bd-thu-am', day: 4, dayName: 'Dijous', colStart: 5, rowStart: 2, rowSpan: 2, code: 'BD', subject: 'Bases de dades', teacher: 'Rudenko, Artem', room: 'Aula no especificada', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-alt-green', description: 'Bases de dades.' },
+      { id: 'alt-si-thu-pm1', day: 4, dayName: 'Dijous', colStart: 5, rowStart: 4, rowSpan: 1, code: 'SI', subject: 'Sistemes informàtics', teacher: 'Martínez, Manuel', room: 'Aula no especificada', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-alt-blue', description: 'Sistemes informàtics.' },
+      { id: 'alt-si-thu-pm2', day: 4, dayName: 'Dijous', colStart: 5, rowStart: 6, rowSpan: 1, code: 'SI', subject: 'Sistemes informàtics', teacher: 'Martínez, Manuel', room: 'Aula no especificada', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-alt-blue', description: 'Sistemes informàtics.' },
+      { id: 'alt-prog-thu', day: 4, dayName: 'Dijous', colStart: 5, rowStart: 7, rowSpan: 2, code: 'PROG', subject: 'Programació', teacher: 'Negre, Pere', room: 'Aula no especificada', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-alt-yellow', description: 'Programació.' },
+      { id: 'alt-ipe-fri', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 2, rowSpan: 3, code: 'IPE I', subject: "Itinerari personal per a l'ocupabilitat I", teacher: 'Bonillo, Santi', room: 'Aula no especificada', startTime: '15:00', endTime: '17:45', startMin: 900, endMin: 1065, colorClass: 'mod-alt-rose', description: "Itinerari personal per a l'ocupabilitat I." },
+      { id: 'alt-bd-fri', day: 5, dayName: 'Divendres', colStart: 6, rowStart: 6, rowSpan: 3, code: 'BD', subject: 'Bases de dades', teacher: 'Rudenko, Artem', room: 'Aula no especificada', startTime: '18:15', endTime: '21:00', startMin: 1095, endMin: 1260, colorClass: 'mod-alt-green', description: 'Bases de dades.' }
+    ];
+    let isAlternateSchedule = false;
+    const getActiveScheduleData = () => isAlternateSchedule ? alternateModulesData : modulesData;
     const pedroDailySeconds = 6 * 60 * 60;
     const pedroWeeklySeconds = pedroDailySeconds * 5;
+    const pedroDeadline = new Date(2027, 1, 26);
+    const pedroDeadlineStart = new Date(2026, 1, 26);
+    const pedroDeadlineDuration = pedroDeadline - pedroDeadlineStart;
 
     function toggleSidebar(show) {
       isSidebarOpen = (typeof show === 'boolean') ? show : !isSidebarOpen;
@@ -96,8 +137,9 @@ tailwind.config = {
       if (!grid) return;
 
       const now = getCurrentTime();
+      const activeModules = getActiveScheduleData();
 
-      modulesData.forEach(mod => {
+      activeModules.forEach(mod => {
         let card = document.getElementById(`card-${mod.id}`);
         const isActive = (now.day === mod.day && now.totalMinutes >= mod.startMin && now.totalMinutes < mod.endMin);
 
@@ -137,13 +179,13 @@ tailwind.config = {
         `;
       });
 
-      renderAttendanceStamps(grid);
+      renderAttendanceStamps(grid, isAlternateSchedule ? alternateAttendanceStamps : attendanceStamps);
     }
 
-    function renderAttendanceStamps(grid) {
+    function renderAttendanceStamps(grid, stamps) {
       if (grid.querySelector('.attendance-stamp')) return;
 
-      attendanceStamps.forEach(({ day, startRow, endRow, course, people }) => {
+      stamps.forEach(({ day, startRow, endRow, course, people }) => {
         const stamp = document.createElement('div');
         stamp.className = 'attendance-stamp';
         stamp.style.gridColumn = String(day + 1);
@@ -154,7 +196,7 @@ tailwind.config = {
 
         people.forEach(person => {
           const portrait = document.createElement('img');
-          portrait.src = `sources/${person.toLowerCase()}.png`;
+          portrait.src = attendanceStampPortraits[person];
           portrait.alt = '';
           stamp.appendChild(portrait);
         });
@@ -292,6 +334,36 @@ tailwind.config = {
         }
         if (label) label.textContent = `${hoursRemaining} OF 30 HOURS REMAINING THIS WEEK`;
       });
+
+      const deadlineSecondsRemaining = Math.max(0, Math.ceil((pedroDeadline - Date.now()) / 1000));
+      const deadlinePercentageRemaining = Math.min(100, (deadlineSecondsRemaining * 1000 / pedroDeadlineDuration) * 100);
+      const deadlineDays = Math.floor(deadlineSecondsRemaining / 86400);
+      const deadlineHours = Math.floor((deadlineSecondsRemaining % 86400) / 3600);
+      const deadlineMinutes = Math.floor((deadlineSecondsRemaining % 3600) / 60);
+      const deadlineSeconds = deadlineSecondsRemaining % 60;
+      const deadlineCountdownText = `${deadlineDays}d ${String(deadlineHours).padStart(2, '0')}h ${String(deadlineMinutes).padStart(2, '0')}m ${String(deadlineSeconds).padStart(2, '0')}s`;
+      const deadlineDaysRemaining = Math.ceil(deadlineSecondsRemaining / 86400);
+      const deadlineAriaValueText = `${deadlineCountdownText} remaining`;
+
+      [
+        ['pedroDeadlineCountdown', 'pedroDeadlineProgress', 'pedroDeadlineRemainingLabel'],
+        ['pedroModalDeadlineCountdown', 'pedroModalDeadlineProgress', 'pedroModalDeadlineRemainingLabel']
+      ].forEach(([countdownId, progressId, labelId]) => {
+        const countdown = document.getElementById(countdownId);
+        const progress = document.getElementById(progressId);
+        const label = document.getElementById(labelId);
+
+        if (countdown) countdown.textContent = deadlineCountdownText;
+        if (progress) {
+          progress.style.width = `${deadlinePercentageRemaining}%`;
+          const track = progress.parentElement;
+          track.setAttribute('aria-valuenow', String(deadlineSecondsRemaining));
+          track.setAttribute('aria-valuetext', deadlineAriaValueText);
+        }
+        if (label) {
+          label.textContent = `${Math.round(deadlinePercentageRemaining)}% OF 365 DAYS REMAINING UNTIL FEBRUARY 25, 2027 (${deadlineDaysRemaining} DAYS)`;
+        }
+      });
     }
 
     function closePedroModal() {
@@ -306,7 +378,7 @@ tailwind.config = {
       const nextNameElem = document.getElementById('nextModuleName');
       const nextBadgeElem = document.getElementById('nextModuleTimeBadge');
 
-      const todayModules = modulesData.filter(m => m.day === now.day);
+      const todayModules = getActiveScheduleData().filter(m => m.day === now.day);
       const activeModule = todayModules.find(m => now.totalMinutes >= m.startMin && now.totalMinutes < m.endMin);
       const isBreak = (now.day >= 1 && now.day <= 5 && now.totalMinutes >= 1065 && now.totalMinutes < 1095);
 
@@ -453,7 +525,7 @@ tailwind.config = {
     }
 
     function applyFilters() {
-      modulesData.forEach(mod => {
+      getActiveScheduleData().forEach(mod => {
         const card = document.getElementById(`card-${mod.id}`);
         if (!card) return;
 
@@ -487,7 +559,8 @@ tailwind.config = {
       document.getElementById('modalTimeDetails').innerHTML = `<i class="fa-regular fa-clock"></i> ${mod.dayName}: ${mod.startTime} - ${mod.endTime}`;
       document.getElementById('modalDescription').textContent = mod.description;
 
-      const matchingStamps = attendanceStamps.filter(stamp =>
+      const activeAttendanceStamps = isAlternateSchedule ? alternateAttendanceStamps : attendanceStamps;
+      const matchingStamps = activeAttendanceStamps.filter(stamp =>
         stamp.day === mod.day && stamp.startMin < mod.endMin && stamp.endMin > mod.startMin
       );
       const attendancePanel = document.getElementById('modalAttendance');
@@ -517,7 +590,7 @@ tailwind.config = {
         attendancePanel.classList.add('hidden');
       }
 
-      const weeklySessions = modulesData.filter(m => m.subject === mod.subject);
+      const weeklySessions = getActiveScheduleData().filter(m => m.subject === mod.subject);
       const sessionsList = document.getElementById('modalWeeklySessions');
       if (sessionsList) {
         sessionsList.innerHTML = weeklySessions.map(s => `
@@ -554,7 +627,7 @@ tailwind.config = {
       const list = document.getElementById('analyticsList');
 
       const subjectMap = {};
-      modulesData.forEach(mod => {
+      getActiveScheduleData().forEach(mod => {
         const durationMin = mod.endMin - mod.startMin;
         if (!subjectMap[mod.subject]) {
           subjectMap[mod.subject] = {
@@ -676,6 +749,23 @@ tailwind.config = {
       playBeepSound(900, 0.1);
     }
 
+    function toggleSchedule() {
+      isAlternateSchedule = !isAlternateSchedule;
+      const toggle = document.getElementById('scheduleToggle');
+      const label = document.getElementById('scheduleToggleLabel');
+      const title = document.getElementById('scheduleTitle');
+      const grid = document.getElementById('scheduleGrid');
+
+      if (grid) grid.querySelectorAll('.mod-card, .attendance-stamp').forEach(card => card.remove());
+      if (toggle) toggle.setAttribute('aria-pressed', String(isAlternateSchedule));
+      if (label) label.textContent = isAlternateSchedule ? 'HORARI GRUP B' : 'HORARI 1r CURS';
+      if (title) title.textContent = isAlternateSchedule ? 'HORARI 1r CURS' : 'HORARI GRUP B';
+
+      updateClockAndHUD();
+      applyFilters();
+      playBeepSound(620, 0.1);
+    }
+
     function bindControls() {
       const actions = {
         'sidebar-close': () => toggleSidebar(false),
@@ -698,6 +788,7 @@ tailwind.config = {
           document.getElementById('pedroModal').classList.remove('hidden');
         },
         'pedro-close': closePedroModal,
+        'schedule-toggle': toggleSchedule,
         'simulator-update': updateSimulation,
         'search-update': handleSearch
       };
