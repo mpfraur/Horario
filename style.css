@@ -19,6 +19,7 @@
 
     #scheduleGrid {
       position: relative;
+      grid-template-rows: auto repeat(7, 6rem);
     }
 
     .attendance-stamp {
