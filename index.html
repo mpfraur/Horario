@@ -376,6 +376,16 @@
           </div>
         </div>
 
+        <div id="modalProgressPanel" class="hidden bg-black p-3.5 border-2 border-slate-800 font-arcade text-[9px]">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span id="modalProgressLabel" class="text-emerald-300">CLASSE PENDENT</span>
+            <span id="modalProgressPercent" class="text-emerald-300">0%</span>
+          </div>
+          <div id="modalProgressTrack" class="module-progress-track" role="progressbar" aria-label="Progressió de la classe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0% classe pendent">
+            <div id="modalProgressFill" class="module-progress-fill"></div>
+          </div>
+        </div>
+
         <div class="bg-black p-3.5 border-2 border-slate-800">
           <span class="font-arcade text-[9px] text-slate-500 block mb-1">DESCRIPCIÓ MÒDUL:</span>
           <p id="modalDescription" class="text-lg text-slate-300 leading-snug">

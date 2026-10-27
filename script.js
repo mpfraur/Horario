@@ -31,6 +31,7 @@ tailwind.config = {
     let isCrtEnabled = false;
     let isDarkMode = true;
     let clockInterval = null;
+    let openModule = null;
 
     // Complete Weekly Schedule Data for IFC33 Grup B
     const modulesData = [
@@ -39,7 +40,7 @@ tailwind.config = {
       { id: 'm2', day: 1, dayName: 'Dilluns', colStart: 2, rowStart: 6, rowSpan: 3, code: 'M06', subject: "Desenvolupament web en entorn servidor", teacher: 'Negre, Pere', room: 'Aula 204', startTime: '18:15', endTime: '21:00', startMin: 1095, endMin: 1260, colorClass: 'mod-dark-purple', description: 'Programació web en entorn servidor, integració amb bases de dades relacionals i NoSQL, i creació de serveis web RESTful.' },
 
       // DIMARTS (Day 2)
-      { id: 'm3', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 2, rowSpan: 2, code: 'M07', subject: "Disseny d'interfícies web", teacher: 'Rudenko, Artem', room: 'Aula 204', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-maroon', description: 'Maquetació avançada amb Grid i Flexbox, disseny responsive, adaptabilitat visual i millors pràctiques en UX/UI.' },
+      { id: 'm3', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 2, rowSpan: 2, code: 'M07', subject: "Disseny d'interfícies web", teacher: 'Rudenko, Artem', room: 'Aula 204', startTime: '15:00', endTime: '16:50', startMin: 900, endMin: 1010, colorClass: 'mod-purple', description: 'Maquetació avançada amb Grid i Flexbox, disseny responsive, adaptabilitat visual i millors pràctiques en UX/UI.' },
       { id: 'm4', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 4, rowSpan: 1, code: 'M06', subject: "Desenvolupament web en entorn client", teacher: 'Rudenko, Artem', room: 'Aula 204', startTime: '16:50', endTime: '17:45', startMin: 1010, endMin: 1065, colorClass: 'mod-teal', description: 'Llenguatges de guió en entorn client, esdeveniments, gestió del DOM i manipulació d\'estils dinàmics.' },
       { id: 'm5', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 6, rowSpan: 1, code: 'M06', subject: "Desenvolupament web en entorn client", teacher: 'Rudenko, Artem', room: 'Aula 204', startTime: '18:15', endTime: '19:10', startMin: 1095, endMin: 1150, colorClass: 'mod-teal', description: 'Programació asíncrona amb Fetch API i Promises, integració amb REST APIs i gestió de l\'estat de la secció.' },
       { id: 'm6', day: 2, dayName: 'Dimarts', colStart: 3, rowStart: 7, rowSpan: 2, code: 'M06', subject: "Desenvolupament web en entorn servidor", teacher: 'Negre, Pere', room: 'Aula 204', startTime: '19:10', endTime: '21:00', startMin: 1150, endMin: 1260, colorClass: 'mod-dark-purple', description: 'Gestió de sessions, autenticació d\'usuaris, seguretat backend i desenvolupament d\'API robustes.' },
@@ -160,7 +161,9 @@ tailwind.config = {
 
       activeModules.forEach(mod => {
         let card = document.getElementById(`card-${mod.id}`);
-        const isActive = (now.day === mod.day && now.totalMinutes >= mod.startMin && now.totalMinutes < mod.endMin);
+        const progress = getModuleProgress(mod, now);
+        const isActive = progress?.status === 'active';
+        const hasPassed = progress?.status === 'completed';
 
         if (!card) {
           card = document.createElement('div');
@@ -169,24 +172,20 @@ tailwind.config = {
           grid.appendChild(card);
         }
 
-        card.className = `mod-card ${mod.colorClass} col-start-${mod.colStart} row-start-${mod.rowStart} row-span-${mod.rowSpan} p-2.5 flex flex-col justify-between cursor-pointer hover:brightness-110 relative overflow-hidden group border-2 sm:border-4 border-black shadow-[3px_3px_0px_#000] ${isActive ? 'active-card-broadcast' : ''}`;
+        card.className = `mod-card ${mod.colorClass} col-start-${mod.colStart} row-start-${mod.rowStart} row-span-${mod.rowSpan} p-2.5 flex flex-col justify-between cursor-pointer hover:brightness-110 relative overflow-hidden group border-2 sm:border-4 border-black shadow-[3px_3px_0px_#000] ${isActive ? 'active-card-broadcast' : ''} ${hasPassed ? 'past-module' : ''}`;
 
-        // Pixel progress bar overlay for active class
         let progressHTML = '';
         if (isActive) {
-          const elapsed = now.totalMinutes - mod.startMin;
-          const total = mod.endMin - mod.startMin;
-          const percent = Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
           progressHTML = `
-            <div class="mt-2 w-full bg-black p-0.5 border border-emerald-400">
-              <div class="bg-emerald-400 h-2 transition-all duration-300" style="width: ${percent}%"></div>
+            <div class="module-progress-track card-progress-track" role="progressbar" aria-label="${mod.subject} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}">
+              <div class="module-progress-fill" style="width: ${progress.percent}%"></div>
             </div>
           `;
         }
 
         card.innerHTML = `
           ${isActive ? '<div class="absolute top-1 right-1 bg-yellow-400 text-black font-arcade text-[7px] px-1 py-0.5 border border-black animate-pulse">[LIVE]</div>' : ''}
-          <div class="text-center my-auto py-1">
+          <div class="text-center my-auto py-1 ${isActive ? 'pb-4' : ''}">
             <h3 class="font-arcade text-[10px] sm:text-xs leading-snug tracking-tight text-white">
               ${mod.subject}
             </h3>
@@ -297,6 +296,53 @@ tailwind.config = {
       updateUpNextWidget(now);
       updatePedroCountdown();
       renderScheduleCards();
+      if (openModule) updateModuleModalProgress(openModule, now);
+    }
+
+    function getModuleProgress(mod, now = getCurrentTime()) {
+      if (!Number.isInteger(mod.day) || !Number.isFinite(mod.startMin) || !Number.isFinite(mod.endMin)) return null;
+
+      if (mod.day < now.day || (mod.day === now.day && now.totalMinutes >= mod.endMin)) {
+        return { status: 'completed', percent: 100 };
+      }
+
+      if (mod.day === now.day && now.totalMinutes >= mod.startMin) {
+        const elapsed = now.totalMinutes - mod.startMin;
+        const duration = mod.endMin - mod.startMin;
+        return {
+          status: 'active',
+          percent: Math.min(100, Math.max(0, Math.round((elapsed / duration) * 100)))
+        };
+      }
+
+      return { status: 'upcoming', percent: 0 };
+    }
+
+    function updateModuleModalProgress(mod, now = getCurrentTime()) {
+      const panel = document.getElementById('modalProgressPanel');
+      const track = document.getElementById('modalProgressTrack');
+      const fill = document.getElementById('modalProgressFill');
+      const label = document.getElementById('modalProgressLabel');
+      const percentLabel = document.getElementById('modalProgressPercent');
+      const progress = getModuleProgress(mod, now);
+
+      if (!panel || !track || !fill || !label || !percentLabel) return;
+      if (!progress) {
+        panel.classList.add('hidden');
+        return;
+      }
+
+      const statusLabels = {
+        completed: 'CLASSE COMPLETADA',
+        active: 'CLASSE EN CURS',
+        upcoming: 'CLASSE PENDENT'
+      };
+      panel.classList.remove('hidden');
+      track.setAttribute('aria-valuenow', String(progress.percent));
+      track.setAttribute('aria-valuetext', `${progress.percent}% ${statusLabels[progress.status].toLowerCase()}`);
+      fill.style.width = `${progress.percent}%`;
+      label.textContent = statusLabels[progress.status];
+      percentLabel.textContent = `${progress.percent}%`;
     }
 
     function getPedroSecondsRemaining(now = new Date()) {
@@ -571,12 +617,14 @@ tailwind.config = {
     }
 
     function openModuleModal(mod) {
+      openModule = mod;
       document.getElementById('modalCodeBadge').textContent = mod.code;
       document.getElementById('modalTitle').textContent = mod.subject;
       document.getElementById('modalTeacher').textContent = getModuleTeacherNames(mod);
       document.getElementById('modalRoom').textContent = mod.room;
       document.getElementById('modalTimeDetails').innerHTML = `<i class="fa-regular fa-clock"></i> ${mod.dayName}: ${mod.startTime} - ${mod.endTime}`;
       document.getElementById('modalDescription').textContent = mod.description;
+      updateModuleModalProgress(mod);
 
       const professorPanel = document.getElementById('modalProfessors');
       const professorList = document.getElementById('modalProfessorList');
@@ -656,6 +704,7 @@ tailwind.config = {
 
     function closeModal() {
       document.getElementById('moduleModal').classList.add('hidden');
+      openModule = null;
     }
 
     function openBreakModal() {
